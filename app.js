@@ -5,9 +5,10 @@ var logger = require("morgan");
 const mongoose = require("mongoose");
 require("./config/passport");
 
-var indexRouter = require("./routes/index");
+const indexRouter = require("./routes/index");
+const apiRouter = require("./routes/api");
 
-var app = express();
+const app = express();
 
 mongoose.connect(
   "mongodb+srv://luhook:KDFgmMk7FofaQzw7@cluster0.pqy7k.mongodb.net/?retryWrites=true&w=majority",
@@ -26,5 +27,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
+app.use("/api", apiRouter);
 
 module.exports = app;
