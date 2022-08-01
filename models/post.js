@@ -11,7 +11,7 @@ const PostSchema = new Schema({
   authorName: { type: String, required: true },
   comments: { type: Array, default: [] },
   published: { type: Boolean, default: false },
-  timestampe: { type: Date, default: Date.now },
+  timestamp: { type: Date, default: Date.now },
 });
 
 PostSchema.virtual("date").get(function () {
