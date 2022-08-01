@@ -4,6 +4,7 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const mongoose = require("mongoose");
 require("./config/passport");
+const Admin = require("./models/admin");
 
 const indexRouter = require("./routes/index");
 const apiRouter = require("./routes/api");

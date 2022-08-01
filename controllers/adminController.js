@@ -48,7 +48,6 @@ exports.signup = [
         admin.save((err, user) => {
           if (err) return next(err);
           res.json({ user });
-          res.redirect("/");
         });
       });
     }
@@ -67,9 +66,9 @@ exports.login = (req, res, next) => {
       if (err) {
         res.send(err);
       }
-      const token = jwt.sign({ user }, "secret");
-      res.json({ user, token });
-      res.redirect("/");
+      const body = { _id: user._id, username: user.username };
+      const token = jwt.sign({ user: body }, "secret");
+      return res.status(200).json({ body, token });
     });
   })(req, res);
 };
