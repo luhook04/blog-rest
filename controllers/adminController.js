@@ -24,35 +24,32 @@ exports.signup = [
     .withMessage("Password must be 5 characters long"),
   body("confirm-password").custom((value, { req }) => {
     if (value !== req.body.password) {
-      return next("Passwords don't match");
+      throw new Error("Passwords don't match");
     }
     return true;
   }),
-  async (req, res, next) => {
-    try {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.json({
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.json({
+        username: req.body.username,
+        errors: errors.array(),
+      });
+    } else {
+      bcrypt.hash(req.body.password, 10, (err, hashedPassword) => {
+        if (err) {
+          return next(err);
+        }
+        const admin = new Admin({
           username: req.body.username,
-          errors: errors.array(),
+          password: hashedPassword,
         });
-      } else {
-        bcrypt.hash(req.body.password, 10, (err, hashedPassword) => {
-          if (err) {
-            return next(err);
-          }
-          var admin = new Admin({
-            username: username,
-            password: hashedPassword,
-          }).save((err) => {
-            if (err) {
-              return next(err);
-            }
-          });
+        admin.save((err, user) => {
+          if (err) return next(err);
+          res.redirect("/");
+          return res.json(user);
         });
-      }
-    } catch (error) {
-      return next(err);
+      });
     }
   },
 ];
