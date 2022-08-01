@@ -9,7 +9,7 @@ const PostSchema = new Schema({
     required: true,
   },
   authorName: { type: String, required: true },
-  comments: { type: Array, default: [] },
+  comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
   published: { type: Boolean, default: false },
   timestamp: { type: Date, default: Date.now },
 });
