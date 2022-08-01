@@ -73,3 +73,8 @@ exports.login = (req, res, next) => {
     });
   })(req, res);
 };
+
+exports.logout = function (req, res) {
+  req.logout();
+  res.redirect("/");
+};
