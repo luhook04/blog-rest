@@ -2,6 +2,7 @@ const Admin = require("../models/admin");
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
+const jwt = require("jsonwebtoken");
 
 exports.signup = [
   body("username", "Username required")
@@ -46,10 +47,28 @@ exports.signup = [
         });
         admin.save((err, user) => {
           if (err) return next(err);
+          res.json({ user });
           res.redirect("/");
-          return res.json(user);
         });
       });
     }
   },
 ];
+
+exports.login = (req, res, next) => {
+  passport.authenticate("local", { session: false }, (err, user, info) => {
+    if (err || !user) {
+      return res
+        .status(400)
+        .json({ message: "Something went wrong", user: user });
+    }
+
+    req.login(user, { session: false }, (err) => {
+      if (err) {
+        res.send(err);
+      }
+      const token = jwt.sign(user, "secret");
+      return res.json({ user, token });
+    });
+  })(req, res);
+};
