@@ -34,3 +34,16 @@ exports.create_post = [
     });
   },
 ];
+
+exports.get_posts = async function (req, res, next) {
+  try {
+    const posts = await Post.find({});
+    posts.sort((a, b) => b.timestamp - a.timestamp);
+    if (!posts) {
+      return res.status(404).json({ err: "posts not found" });
+    }
+    res.status(200).json({ posts });
+  } catch (err) {
+    next(err);
+  }
+};

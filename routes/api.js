@@ -12,9 +12,7 @@ router.post("/sign-up", admin_controller.signup);
 
 router.post("/login", admin_controller.login);
 
-router.get("/posts", function (req, res, next) {
-  res.json({ message: "Welcome" });
-});
+router.get("/posts", post_controller.get_posts);
 
 router.post(
   "/posts",
