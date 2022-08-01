@@ -67,8 +67,9 @@ exports.login = (req, res, next) => {
       if (err) {
         res.send(err);
       }
-      const token = jwt.sign(user, "secret");
-      return res.json({ user, token });
+      const token = jwt.sign({ user }, "secret");
+      res.json({ user, token });
+      res.redirect("/");
     });
   })(req, res);
 };
