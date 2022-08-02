@@ -20,5 +20,5 @@ router.post(
   post_controller.create_post
 );
 router.post("/posts/:postId/comments", comment_controller.create_comment);
-
+router.get("/posts/:postId/comments", comment_controller.get_comments);
 module.exports = router;

@@ -38,5 +38,16 @@ exports.create_comment = [
 ];
 
 exports.get_comments = async (req, res, next) => {
-  const comments = await Comment.find({});
+  try {
+    const comments = await Comment.find({});
+    if (!comments) {
+      return res.status(404).json({ err: `No comments found` });
+    }
+    const orderedComments = comments
+      .filter((comment) => comment.postId === req.params.postId)
+      .sort((a, b) => b.timestamp - a.timestamp);
+    res.status(200).json({ comments });
+  } catch (err) {
+    next(err);
+  }
 };
