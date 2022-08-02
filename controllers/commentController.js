@@ -46,7 +46,7 @@ exports.get_comments = async (req, res, next) => {
     const orderedComments = comments
       .filter((comment) => comment.postId === req.params.postId)
       .sort((a, b) => b.timestamp - a.timestamp);
-    res.status(200).json({ comments });
+    res.status(200).json({ orderedComments });
   } catch (err) {
     next(err);
   }
