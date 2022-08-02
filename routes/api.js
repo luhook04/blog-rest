@@ -13,12 +13,12 @@ router.post("/sign-up", admin_controller.signup);
 router.post("/login", admin_controller.login);
 
 router.get("/posts", post_controller.get_posts);
-router.get("/posts/:id", post_controller.get_single_post);
+router.get("/posts/:postId", post_controller.get_single_post);
 router.post(
   "/posts",
   passport.authenticate("jwt", { session: false }),
   post_controller.create_post
 );
-router.post("/posts/:id/comments", comment_controller.create_comment);
+router.post("/posts/:postId/comments", comment_controller.create_comment);
 
 module.exports = router;

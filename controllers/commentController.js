@@ -23,9 +23,9 @@ exports.create_comment = [
     const comment = new Comment({
       username: req.body.text,
       text: req.body.text,
-      postId: req.params.id,
+      postId: req.params.postId,
     });
-    let post = await Post.findById(req.params.id);
+    let post = await Post.findById(req.params.postId);
     post.comments = [...post.comments, comment];
     post = await post.save();
     comment.save((err) => {
@@ -36,3 +36,7 @@ exports.create_comment = [
     });
   },
 ];
+
+exports.get_comments = async (req, res, next) => {
+  const comments = await Comment.find({});
+};
