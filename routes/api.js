@@ -14,6 +14,7 @@ router.post("/login", admin_controller.login);
 
 router.get("/posts", post_controller.get_posts);
 router.get("/posts/:postId", post_controller.get_single_post);
+router.post("/posts/:postId", post_controller.update_post);
 router.post(
   "/posts",
   passport.authenticate("jwt", { session: false }),
@@ -21,4 +22,5 @@ router.post(
 );
 router.post("/posts/:postId/comments", comment_controller.create_comment);
 router.get("/posts/:postId/comments", comment_controller.get_comments);
+
 module.exports = router;
