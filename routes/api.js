@@ -14,7 +14,7 @@ router.post("/login", admin_controller.login);
 
 router.get("/posts", post_controller.get_posts);
 router.get("/posts/:postId", post_controller.get_single_post);
-router.post("/posts/:postId", post_controller.update_post);
+router.put("/posts/:postId", post_controller.update_post);
 router.post(
   "/posts",
   passport.authenticate("jwt", { session: false }),
