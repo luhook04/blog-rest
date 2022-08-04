@@ -9,9 +9,12 @@ router.get("/api", function (req, res, next) {
   res.redirect("/api/posts");
 });
 
+// admin routes
 router.post("/sign-up", admin_controller.signup);
 router.post("/login", admin_controller.login);
+router.post("/logout", admin_controller.logout);
 
+// post routes
 router.get("/posts", post_controller.get_posts);
 router.get("/posts/:postId", post_controller.get_single_post);
 router.put(
@@ -30,6 +33,7 @@ router.post(
   post_controller.create_post
 );
 
+// comment routes
 router.post("/posts/:postId/comments", comment_controller.create_comment);
 router.get("/posts/:postId/comments", comment_controller.get_comments);
 router.delete(
