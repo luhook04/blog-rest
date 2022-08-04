@@ -3,6 +3,7 @@ const passport = require("passport");
 const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 exports.signup = [
   body("username", "Username required")
@@ -67,7 +68,7 @@ exports.login = (req, res, next) => {
         res.send(err);
       }
       const body = { _id: user._id, username: user.username };
-      const token = jwt.sign({ user: body }, "secret");
+      const token = jwt.sign({ user: body }, process.env.SECRET_KEY);
       return res.status(200).json({ body, token });
     });
   })(req, res);

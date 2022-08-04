@@ -1,5 +1,4 @@
 const { body, validationResult } = require("express-validator");
-const comment = require("../models/comment");
 const Comment = require("../models/comment");
 const Post = require("../models/post");
 
@@ -47,7 +46,7 @@ exports.get_comments = async (req, res, next) => {
     const orderedComments = comments
       .filter((comment) => comment.postId === req.params.postId)
       .sort((a, b) => b.timestamp - a.timestamp);
-    res.status(200).json({ orderedComments });
+    res.status(200).json({ comments: orderedComments });
   } catch (err) {
     next(err);
   }

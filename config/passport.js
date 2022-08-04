@@ -1,3 +1,4 @@
+require("dotenv").config();
 const passport = require("passport");
 const passportJWT = require("passport-jwt");
 const JWTStrategy = passportJWT.Strategy;
@@ -32,7 +33,7 @@ passport.use(
   new JWTStrategy(
     {
       jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-      secretOrKey: "secret",
+      secretOrKey: process.env.SECRET_KEY,
     },
     async (jwtPayload, done) => {
       try {
