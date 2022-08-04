@@ -1,4 +1,5 @@
 const { body, validationResult } = require("express-validator");
+const { findByIdAndUpdate } = require("../models/post");
 const Post = require("../models/post");
 
 exports.create_post = [
@@ -57,6 +58,22 @@ exports.get_single_post = async function (req, res, next) {
         .json({ err: `Post with id ${req.params.postId} not found` });
     }
     res.status(200).json({ post });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.update_post = async function (req, res, next) {
+  try {
+    let post = await findById(req.params.id);
+    post.title = req.body.title;
+    post.authorName = req.body.authorName;
+    post.text = req.body.text;
+    post = await post.save();
+    if (!post) {
+      return res.status(404).json({ msg: "Update failed" });
+    }
+    res.status(200).json({ msg: "Update successful" });
   } catch (err) {
     next(err);
   }
