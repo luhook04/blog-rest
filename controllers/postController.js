@@ -1,5 +1,6 @@
 const { body, validationResult } = require("express-validator");
 const Post = require("../models/post");
+const Comment = require("../models/comment");
 
 exports.create_post = [
   body("title")
@@ -91,7 +92,15 @@ exports.delete_post = async function (req, res, next) {
         .status(404)
         .json({ err: `Post ${req.params.postId} not found` });
     }
-    res.status(200).json({ msg: `Post ${req.params.postId} deleted` });
+    let deletedComments = await Comment.deleteMany({
+      postId: req.params.postId,
+    });
+    res
+      .status(200)
+      .json({
+        msg: `Post ${req.params.postId} deleted`,
+        comments: deletedComments,
+      });
   } catch (err) {
     next(err);
   }
