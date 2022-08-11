@@ -68,12 +68,9 @@ exports.update_post = async function (req, res, next) {
     const updatedPost = {
       title: req.body.title,
       text: req.body.text,
+      published: req.body.published,
     };
-    let post = await Post.findByIdAndUpdate(
-      req.params.postId,
-      updatedPost,
-      {}
-    );
+    let post = await Post.findByIdAndUpdate(req.params.postId, updatedPost, {});
     post = await post.save();
     if (!post) {
       return res.status(404).json({ msg: "Update failed" });
@@ -95,12 +92,10 @@ exports.delete_post = async function (req, res, next) {
     let deletedComments = await Comment.deleteMany({
       postId: req.params.postId,
     });
-    res
-      .status(200)
-      .json({
-        msg: `Post ${req.params.postId} deleted`,
-        comments: deletedComments,
-      });
+    res.status(200).json({
+      msg: `Post ${req.params.postId} deleted`,
+      comments: deletedComments,
+    });
   } catch (err) {
     next(err);
   }
