@@ -6,12 +6,10 @@ exports.create_comment = [
   body("username")
     .trim()
     .isLength({ min: 1 })
-    .escape()
     .withMessage("Username can't be blank"),
   body("text")
     .trim()
     .isLength({ min: 1 })
-    .escape()
     .withMessage("Comment can't be blank"),
 
   async function (req, res, next) {
@@ -64,9 +62,7 @@ exports.delete_comment = async (req, res, next) => {
 
     const comment = await Comment.findByIdAndDelete(req.params.commentId);
     if (!comment) {
-      return res
-        .status(404)
-        .json(`Comment ${req.params.commentId} not found`);
+      return res.status(404).json(`Comment ${req.params.commentId} not found`);
     }
     return res
       .status(200)

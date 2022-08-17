@@ -5,12 +5,10 @@ const Comment = require("../models/comment");
 exports.create_post = [
   body("title")
     .trim()
-    .escape()
     .isLength({ min: 1 })
     .withMessage("Title required for post"),
   body("text")
     .trim()
-    .escape()
     .isLength({ min: 1 })
     .withMessage("Content required for post"),
 
